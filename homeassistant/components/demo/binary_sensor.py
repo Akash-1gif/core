@@ -14,7 +14,6 @@ from . import DOMAIN
 
 
 async def async_setup_entry(
-    config_entry: ConfigEntry,
     async_add_entities: AddEntitiesCallback,
 ) -> None:
     """Set up the demo binary sensor platform."""
