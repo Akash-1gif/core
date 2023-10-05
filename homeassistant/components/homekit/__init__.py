@@ -986,7 +986,7 @@ class HomeKit:
         self.driver.accessory = acc
         return True
 
-    async def async_stop(self, *args: Any) -> None:
+    async def async_stop(self) -> None:
         """Stop the accessory driver."""
         if self.status != STATUS_RUNNING:
             return
