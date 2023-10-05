@@ -25,7 +25,6 @@ from homeassistant.helpers.typing import ConfigType, DiscoveryInfoType
 async def async_setup_platform(
     hass: HomeAssistant,
     async_add_entities: AddEntitiesCallback,
-    discovery_info: DiscoveryInfoType | None = None,
 ) -> None:
     """Set up the Demo alarm control panel platform."""
     async_add_entities(
