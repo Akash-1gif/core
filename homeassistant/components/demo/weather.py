@@ -60,14 +60,11 @@ async def async_setup_entry(
     async_add_entities: AddEntitiesCallback,
 ) -> None:
     """Set up the Demo config entry."""
-    setup_platform(hass, {}, async_add_entities)
+    setup_platform(async_add_entities)
 
 
 def setup_platform(
-    hass: HomeAssistant,
-    config: ConfigType,
     add_entities: AddEntitiesCallback,
-    discovery_info: DiscoveryInfoType | None = None,
 ) -> None:
     """Set up the Demo weather."""
     add_entities(
