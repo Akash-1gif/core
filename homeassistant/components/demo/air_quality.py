@@ -10,7 +10,6 @@ from homeassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
 async def async_setup_platform(
     async_add_entities: AddEntitiesCallback,
-    discovery_info: DiscoveryInfoType | None = None,
 ) -> None:
     """Set up the Air Quality."""
     async_add_entities(
