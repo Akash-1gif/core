@@ -777,7 +777,7 @@ class HomeKit:
 
         return entity_states
 
-    async def async_start(self, *args: Any) -> None:
+    async def async_start(self) -> None:
         """Load storage and start."""
         if self.status != STATUS_READY:
             return
