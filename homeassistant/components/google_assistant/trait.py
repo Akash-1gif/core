@@ -177,6 +177,7 @@ _TraitT = TypeVar("_TraitT", bound="_Trait")
 
 # String declarations:
 preset_mode = "preset mode"
+sound_mode = "sound mode"
 
 def register_trait(trait: type[_TraitT]) -> type[_TraitT]:
     """Decorate a class to register a trait."""
@@ -1607,7 +1608,7 @@ class ModesTrait(_Trait):
 
     SYNONYMS = {
         preset_mode: [preset_mode, "mode", "preset"],
-        "sound mode": ["sound mode", "effects"],
+        sound_mode: [sound_mode, "effects"],
         "option": ["option", "setting", "mode", "value"],
     }
 
@@ -1664,7 +1665,7 @@ class ModesTrait(_Trait):
 
         for domain, attr, name in (
             (fan.DOMAIN, fan.ATTR_PRESET_MODES, preset_mode),
-            (media_player.DOMAIN, media_player.ATTR_SOUND_MODE_LIST, "sound mode"),
+            (media_player.DOMAIN, media_player.ATTR_SOUND_MODE_LIST, sound_mode),
             (input_select.DOMAIN, input_select.ATTR_OPTIONS, "option"),
             (select.DOMAIN, select.ATTR_OPTIONS, "option"),
             (humidifier.DOMAIN, humidifier.ATTR_AVAILABLE_MODES, "mode"),
@@ -1694,7 +1695,7 @@ class ModesTrait(_Trait):
                 mode_settings[preset_mode] = attrs.get(fan.ATTR_PRESET_MODE)
         elif self.state.domain == media_player.DOMAIN:
             if media_player.ATTR_SOUND_MODE_LIST in attrs:
-                mode_settings["sound mode"] = attrs.get(media_player.ATTR_SOUND_MODE)
+                mode_settings[sound_mode] = attrs.get(media_player.ATTR_SOUND_MODE)
         elif self.state.domain == input_select.DOMAIN:
             mode_settings["option"] = self.state.state
         elif self.state.domain == select.DOMAIN:
@@ -1786,7 +1787,7 @@ class ModesTrait(_Trait):
             return
 
         if self.state.domain == media_player.DOMAIN and (
-            sound_mode := settings.get("sound mode")
+            sound_mode := settings.get(sound_mode)
         ):
             await self.hass.services.async_call(
                 media_player.DOMAIN,
