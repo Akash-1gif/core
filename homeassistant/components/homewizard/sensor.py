@@ -33,6 +33,8 @@ from .entity import HomeWizardEntity
 
 PARALLEL_UPDATES = 1
 
+# Declaring variables:
+mdi_alert = "mdi:alert"
 
 @dataclass
 class HomeWizardEntityDescriptionMixin:
@@ -310,7 +312,7 @@ SENSORS: Final[tuple[HomeWizardSensorEntityDescription, ...]] = (
     HomeWizardSensorEntityDescription(
         key="voltage_sag_l1_count",
         translation_key="voltage_sag_l1_count",
-        icon="mdi:alert",
+        icon=mdi_alert,
         entity_category=EntityCategory.DIAGNOSTIC,
         has_fn=lambda data: data.voltage_sag_l1_count is not None,
         value_fn=lambda data: data.voltage_sag_l1_count,
@@ -318,7 +320,7 @@ SENSORS: Final[tuple[HomeWizardSensorEntityDescription, ...]] = (
     HomeWizardSensorEntityDescription(
         key="voltage_sag_l2_count",
         translation_key="voltage_sag_l2_count",
-        icon="mdi:alert",
+        icon=mdi_alert,
         entity_category=EntityCategory.DIAGNOSTIC,
         has_fn=lambda data: data.voltage_sag_l2_count is not None,
         value_fn=lambda data: data.voltage_sag_l2_count,
@@ -326,7 +328,7 @@ SENSORS: Final[tuple[HomeWizardSensorEntityDescription, ...]] = (
     HomeWizardSensorEntityDescription(
         key="voltage_sag_l3_count",
         translation_key="voltage_sag_l3_count",
-        icon="mdi:alert",
+        icon=mdi_alert,
         entity_category=EntityCategory.DIAGNOSTIC,
         has_fn=lambda data: data.voltage_sag_l3_count is not None,
         value_fn=lambda data: data.voltage_sag_l3_count,
@@ -334,7 +336,7 @@ SENSORS: Final[tuple[HomeWizardSensorEntityDescription, ...]] = (
     HomeWizardSensorEntityDescription(
         key="voltage_swell_l1_count",
         translation_key="voltage_swell_l1_count",
-        icon="mdi:alert",
+        icon=mdi_alert,
         entity_category=EntityCategory.DIAGNOSTIC,
         has_fn=lambda data: data.voltage_swell_l1_count is not None,
         value_fn=lambda data: data.voltage_swell_l1_count,
@@ -342,7 +344,7 @@ SENSORS: Final[tuple[HomeWizardSensorEntityDescription, ...]] = (
     HomeWizardSensorEntityDescription(
         key="voltage_swell_l2_count",
         translation_key="voltage_swell_l2_count",
-        icon="mdi:alert",
+        icon=mdi_alert,
         entity_category=EntityCategory.DIAGNOSTIC,
         has_fn=lambda data: data.voltage_swell_l2_count is not None,
         value_fn=lambda data: data.voltage_swell_l2_count,
@@ -350,7 +352,7 @@ SENSORS: Final[tuple[HomeWizardSensorEntityDescription, ...]] = (
     HomeWizardSensorEntityDescription(
         key="voltage_swell_l3_count",
         translation_key="voltage_swell_l3_count",
-        icon="mdi:alert",
+        icon=mdi_alert,
         entity_category=EntityCategory.DIAGNOSTIC,
         has_fn=lambda data: data.voltage_swell_l3_count is not None,
         value_fn=lambda data: data.voltage_swell_l3_count,
