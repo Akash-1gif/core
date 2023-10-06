@@ -30,6 +30,7 @@ mdi_tram = "mdi:tram"
 mdi_bus = "mdi:bus"
 mdi_ferry = "mdi:ferry"
 mdi_train_var = "mdi:train-variant"
+mdi_subway_var = "mdi:subway-variant"
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -108,12 +109,12 @@ ICONS = {
     207: mdi_bus,
     208: mdi_bus,
     209: mdi_bus,
-    400: "mdi:subway-variant",
-    401: "mdi:subway-variant",
+    400: mdi_subway_var,
+    401: mdi_subway_var,
     402: "mdi:subway",
-    403: "mdi:subway-variant",
-    404: "mdi:subway-variant",
-    405: "mdi:subway-variant",
+    403: mdi_subway_var,
+    404: mdi_subway_var,
+    405: mdi_subway_var,
     700: mdi_bus,
     701: mdi_bus,
     702: mdi_bus,
