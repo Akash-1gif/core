@@ -32,6 +32,8 @@ mdi_ferry = "mdi:ferry"
 mdi_train_var = "mdi:train-variant"
 mdi_subway_var = "mdi:subway-variant"
 mdi_taxi = "mdi:taxi"
+Drop_Off_Type = "Drop Off Type"
+Pickup_Type = "Pickup Type"
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -455,8 +457,8 @@ def get_next_departure(
     origin_stop_time = {
         "Arrival Time": origin_arrival_time,
         "Departure Time": origin_depart_time,
-        "Drop Off Type": item["origin_drop_off_type"],
-        "Pickup Type": item["origin_pickup_type"],
+        Drop_Off_Type: item["origin_drop_off_type"],
+        Pickup_Type: item["origin_pickup_type"],
         "Shape Dist Traveled": item["origin_dist_traveled"],
         "Headsign": item["origin_stop_headsign"],
         "Sequence": item["origin_stop_sequence"],
@@ -466,8 +468,8 @@ def get_next_departure(
     destination_stop_time = {
         "Arrival Time": dest_arrival_time,
         "Departure Time": dest_depart_time,
-        "Drop Off Type": item["dest_drop_off_type"],
-        "Pickup Type": item["dest_pickup_type"],
+        Drop_Off_Type: item["dest_drop_off_type"],
+        Pickup_Type: item["dest_pickup_type"],
         "Shape Dist Traveled": item["dest_dist_traveled"],
         "Headsign": item["dest_stop_headsign"],
         "Sequence": item["dest_stop_sequence"],
@@ -783,11 +785,11 @@ class GTFSDepartureSensor(SensorEntity):
         if self._departure:
             self.append_keys(self._departure["origin_stop_time"], prefix)
             self._attributes[ATTR_DROP_OFF_ORIGIN] = DROP_OFF_TYPE_OPTIONS.get(
-                self._departure["origin_stop_time"]["Drop Off Type"],
+                self._departure["origin_stop_time"][Drop_Off_Type],
                 DROP_OFF_TYPE_DEFAULT,
             )
             self._attributes[ATTR_PICKUP_ORIGIN] = PICKUP_TYPE_OPTIONS.get(
-                self._departure["origin_stop_time"]["Pickup Type"], PICKUP_TYPE_DEFAULT
+                self._departure["origin_stop_time"][Pickup_Type], PICKUP_TYPE_DEFAULT
             )
             self._attributes[ATTR_TIMEPOINT_ORIGIN] = TIMEPOINT_OPTIONS.get(
                 self._departure["origin_stop_time"]["Timepoint"], TIMEPOINT_DEFAULT
@@ -799,11 +801,11 @@ class GTFSDepartureSensor(SensorEntity):
         if self._departure:
             self.append_keys(self._departure["destination_stop_time"], prefix)
             self._attributes[ATTR_DROP_OFF_DESTINATION] = DROP_OFF_TYPE_OPTIONS.get(
-                self._departure["destination_stop_time"]["Drop Off Type"],
+                self._departure["destination_stop_time"][Drop_Off_Type],
                 DROP_OFF_TYPE_DEFAULT,
             )
             self._attributes[ATTR_PICKUP_DESTINATION] = PICKUP_TYPE_OPTIONS.get(
-                self._departure["destination_stop_time"]["Pickup Type"],
+                self._departure["destination_stop_time"][Pickup_Type],
                 PICKUP_TYPE_DEFAULT,
             )
             self._attributes[ATTR_TIMEPOINT_DESTINATION] = TIMEPOINT_OPTIONS.get(
