@@ -31,6 +31,7 @@ mdi_bus = "mdi:bus"
 mdi_ferry = "mdi:ferry"
 mdi_train_var = "mdi:train-variant"
 mdi_subway_var = "mdi:subway-variant"
+mdi_taxi = "mdi:taxi"
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -145,14 +146,14 @@ ICONS = {
     1200: mdi_ferry,
     1300: "mdi:airplane",
     1400: "mdi:gondola",
-    1500: "mdi:taxi",
-    1501: "mdi:taxi",
+    1500: mdi_taxi,
+    1501: mdi_taxi,
     1502: mdi_ferry,
     1503: mdi_train_var,
     1504: "mdi:bicycle-basket",
-    1505: "mdi:taxi",
+    1505: mdi_taxi,
     1506: "mdi:car-multiple",
-    1507: "mdi:taxi",
+    1507: mdi_taxi,
     1700: "mdi:train-car",
     1702: "mdi:horse-variant",
 }
