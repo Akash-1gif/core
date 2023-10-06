@@ -28,6 +28,7 @@ import homeassistant.util.dt as dt_util
 mdi_train = "mdi:train"
 mdi_tram = "mdi:tram"
 mdi_bus = "mdi:bus"
+mdi_ferry = "mdi:ferry"
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -74,7 +75,7 @@ ICONS = {
     1: "mdi:subway",
     2: mdi_train,
     3: mdi_bus,
-    4: "mdi:ferry",
+    4: mdi_ferry,
     5: "mdi:train-variant",
     6: "mdi:gondola",
     7: "mdi:stairs",
@@ -137,14 +138,14 @@ ICONS = {
     904: mdi_tram,
     905: mdi_tram,
     906: mdi_tram,
-    1000: "mdi:ferry",
+    1000: mdi_ferry,
     1100: "mdi:airplane",
-    1200: "mdi:ferry",
+    1200: mdi_ferry,
     1300: "mdi:airplane",
     1400: "mdi:gondola",
     1500: "mdi:taxi",
     1501: "mdi:taxi",
-    1502: "mdi:ferry",
+    1502: mdi_ferry,
     1503: "mdi:train-variant",
     1504: "mdi:bicycle-basket",
     1505: "mdi:taxi",
