@@ -26,6 +26,7 @@ import homeassistant.util.dt as dt_util
 
 # Defining variables:
 mdi_train = "mdi:train"
+mdi_tram = "mdi:tram"
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -68,7 +69,7 @@ DROP_OFF_TYPE_OPTIONS = {
 }
 ICON = mdi_train
 ICONS = {
-    0: "mdi:tram",
+    0: mdi_tram,
     1: "mdi:subway",
     2: mdi_train,
     3: "mdi:bus",
@@ -128,13 +129,13 @@ ICONS = {
     715: "mdi:bus",
     716: "mdi:bus",
     800: "mdi:bus",
-    900: "mdi:tram",
-    901: "mdi:tram",
-    902: "mdi:tram",
-    903: "mdi:tram",
-    904: "mdi:tram",
-    905: "mdi:tram",
-    906: "mdi:tram",
+    900: mdi_tram,
+    901: mdi_tram,
+    902: mdi_tram,
+    903: mdi_tram,
+    904: mdi_tram,
+    905: mdi_tram,
+    906: mdi_tram,
     1000: "mdi:ferry",
     1100: "mdi:airplane",
     1200: "mdi:ferry",
