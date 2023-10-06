@@ -24,6 +24,9 @@ from homeassistant.helpers.typing import ConfigType, DiscoveryInfoType
 from homeassistant.util import slugify
 import homeassistant.util.dt as dt_util
 
+# Defining variables:
+mdi_train = "mdi:train"
+
 _LOGGER = logging.getLogger(__name__)
 
 ATTR_ARRIVAL = "arrival"
@@ -63,26 +66,26 @@ DROP_OFF_TYPE_OPTIONS = {
     2: "Call Agency",
     3: "Contact Driver",
 }
-ICON = "mdi:train"
+ICON = mdi_train
 ICONS = {
     0: "mdi:tram",
     1: "mdi:subway",
-    2: "mdi:train",
+    2: mdi_train,
     3: "mdi:bus",
     4: "mdi:ferry",
     5: "mdi:train-variant",
     6: "mdi:gondola",
     7: "mdi:stairs",
-    100: "mdi:train",
-    101: "mdi:train",
-    102: "mdi:train",
-    103: "mdi:train",
+    100: mdi_train,
+    101: mdi_train,
+    102: mdi_train,
+    103: mdi_train,
     104: "mdi:train-car",
-    105: "mdi:train",
-    106: "mdi:train",
-    107: "mdi:train",
-    108: "mdi:train",
-    109: "mdi:train",
+    105: mdi_train,
+    106: mdi_train,
+    107: mdi_train,
+    108: mdi_train,
+    109: mdi_train,
     110: "mdi:train-variant",
     111: "mdi:train-variant",
     112: "mdi:train-variant",
