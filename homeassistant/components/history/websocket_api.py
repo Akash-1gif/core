@@ -41,6 +41,9 @@ import homeassistant.util.dt as dt_util
 from .const import EVENT_COALESCE_TIME, MAX_PENDING_HISTORY_STATES
 from .helpers import entities_may_have_state_changes_after
 
+# Declaring Variables:
+invalid_end_time = "Invalid end_time"
+
 _LOGGER = logging.getLogger(__name__)
 
 
@@ -123,7 +126,7 @@ async def ws_get_history_during_period(
         if end_time := dt_util.parse_datetime(end_time_str):
             end_time = dt_util.as_utc(end_time)
         else:
-            connection.send_error(msg["id"], "invalid_end_time", "Invalid end_time")
+            connection.send_error(msg["id"], "invalid_end_time", invalid_end_time)
             return
     else:
         end_time = None
@@ -426,11 +429,11 @@ async def ws_stream(
     end_time: dt | None = None
     if end_time_str:
         if not (end_time := dt_util.parse_datetime(end_time_str)):
-            connection.send_error(msg_id, "invalid_end_time", "Invalid end_time")
+            connection.send_error(msg_id, "invalid_end_time", invalid_end_time)
             return
         end_time = dt_util.as_utc(end_time)
         if end_time < start_time:
-            connection.send_error(msg_id, "invalid_end_time", "Invalid end_time")
+            connection.send_error(msg_id, "invalid_end_time", invalid_end_time)
             return
 
     entity_ids: list[str] = msg["entity_ids"]
