@@ -6,6 +6,9 @@ DEFAULT_LANG = "en"
 DEFAULT_TLD = "com"
 DOMAIN = "google_translate"
 
+# Declared variable:
+uk = "co.uk"
+
 SUPPORT_LANGUAGES = [
     "af",
     "ar",
@@ -268,7 +271,7 @@ SUPPORT_TLD = [
     "co.tz",
     "com.ua",
     "co.ug",
-    "co.uk",
+    uk,
     "com.uy",
     "co.uz",
     "com.vc",
@@ -296,8 +299,8 @@ class Dialect:
 
 MAP_LANG_TLD: dict[str, Dialect] = {
     "en-us": Dialect("en", "com"),
-    "en-gb": Dialect("en", "co.uk"),
-    "en-uk": Dialect("en", "co.uk"),
+    "en-gb": Dialect("en", uk),
+    "en-uk": Dialect("en", uk),
     "en-au": Dialect("en", "com.au"),
     "en-ca": Dialect("en", "ca"),
     "en-in": Dialect("en", "co.in"),
