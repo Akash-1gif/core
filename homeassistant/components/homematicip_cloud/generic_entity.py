@@ -16,6 +16,9 @@ from homeassistant.helpers.entity import Entity
 from .const import DOMAIN as HMIPC_DOMAIN
 from .hap import AsyncHome, HomematicipHAP
 
+# Declaring variables:
+mdi_alert = "mdi:alert"
+
 _LOGGER = logging.getLogger(__name__)
 
 ATTR_MODEL_TYPE = "model_type"
@@ -38,10 +41,10 @@ ATTR_EVENT_DELAY = "event_delay"
 DEVICE_ATTRIBUTE_ICONS = {
     "lowBat": "mdi:battery-outline",
     "sabotage": "mdi:shield-alert",
-    "dutyCycle": "mdi:alert",
-    "deviceOverheated": "mdi:alert",
-    "deviceOverloaded": "mdi:alert",
-    "deviceUndervoltage": "mdi:alert",
+    "dutyCycle": mdi_alert,
+    "deviceOverheated": mdi_alert,
+    "deviceOverloaded": mdi_alert,
+    "deviceUndervoltage": mdi_alert,
     "configPending": "mdi:alert-circle",
 }
 
