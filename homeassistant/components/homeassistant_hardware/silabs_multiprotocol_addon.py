@@ -59,6 +59,8 @@ STORAGE_VERSION_MINOR = 1
 SAVE_DELAY = 10
 
 
+zha_exception = "Unexpected exception during ZHA migration"
+
 @singleton(DATA_MULTIPROTOCOL_ADDON_MANAGER)
 async def get_multiprotocol_addon_manager(
     hass: HomeAssistant,
@@ -497,7 +499,7 @@ class OptionsFlowHandler(config_entries.OptionsFlow, ABC):
                 if await zha_migration_mgr.async_initiate_migration(migration_data):
                     self._zha_migration_mgr = zha_migration_mgr
             except Exception as err:
-                _LOGGER.exception("Unexpected exception during ZHA migration")
+                _LOGGER.exception(zha_exception)
                 raise AbortFlow("zha_migration_failed") from err
 
             if (zha_channel := await async_get_zha_channel(self.hass)) is not None:
@@ -566,7 +568,7 @@ class OptionsFlowHandler(config_entries.OptionsFlow, ABC):
             try:
                 await self._zha_migration_mgr.async_finish_migration()
             except Exception as err:
-                _LOGGER.exception("Unexpected exception during ZHA migration")
+                _LOGGER.exception(zha_exception)
                 raise AbortFlow("zha_migration_failed") from err
 
         return self.async_create_entry(title="", data={})
@@ -781,7 +783,7 @@ class OptionsFlowHandler(config_entries.OptionsFlow, ABC):
                 if await zha_migration_mgr.async_initiate_migration(migration_data):
                     self._zha_migration_mgr = zha_migration_mgr
             except Exception as err:
-                _LOGGER.exception("Unexpected exception during ZHA migration")
+                _LOGGER.exception(zha_exception)
                 raise AbortFlow("zha_migration_failed") from err
 
         flasher_manager = get_flasher_addon_manager(self.hass)
@@ -879,7 +881,7 @@ class OptionsFlowHandler(config_entries.OptionsFlow, ABC):
             try:
                 await self._zha_migration_mgr.async_finish_migration()
             except Exception as err:
-                _LOGGER.exception("Unexpected exception during ZHA migration")
+                _LOGGER.exception(zha_exception)
                 raise AbortFlow("zha_migration_failed") from err
 
         return self.async_create_entry(title="", data={})
