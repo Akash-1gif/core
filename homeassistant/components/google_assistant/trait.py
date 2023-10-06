@@ -178,6 +178,7 @@ _TraitT = TypeVar("_TraitT", bound="_Trait")
 # String declarations:
 preset_mode = "preset mode"
 sound_mode = "sound mode"
+command_not_supported = "Command not supported"
 
 def register_trait(trait: type[_TraitT]) -> type[_TraitT]:
     """Decorate a class to register a trait."""
@@ -2094,7 +2095,7 @@ class VolumeTrait(_Trait):
             self.state.attributes.get(ATTR_SUPPORTED_FEATURES, 0)
             & MediaPlayerEntityFeature.VOLUME_SET
         ):
-            raise SmartHomeError(ERR_NOT_SUPPORTED, "Command not supported")
+            raise SmartHomeError(ERR_NOT_SUPPORTED, command_not_supported)
 
         await self._set_volume_absolute(data, level / 100)
 
@@ -2123,7 +2124,7 @@ class VolumeTrait(_Trait):
                     context=data.context,
                 )
         else:
-            raise SmartHomeError(ERR_NOT_SUPPORTED, "Command not supported")
+            raise SmartHomeError(ERR_NOT_SUPPORTED, command_not_supported)
 
     async def _execute_mute(self, data, params):
         mute = params["mute"]
@@ -2132,7 +2133,7 @@ class VolumeTrait(_Trait):
             self.state.attributes.get(ATTR_SUPPORTED_FEATURES, 0)
             & MediaPlayerEntityFeature.VOLUME_MUTE
         ):
-            raise SmartHomeError(ERR_NOT_SUPPORTED, "Command not supported")
+            raise SmartHomeError(ERR_NOT_SUPPORTED, command_not_supported)
 
         await self.hass.services.async_call(
             media_player.DOMAIN,
@@ -2154,7 +2155,7 @@ class VolumeTrait(_Trait):
         elif command == COMMAND_MUTE:
             await self._execute_mute(data, params)
         else:
-            raise SmartHomeError(ERR_NOT_SUPPORTED, "Command not supported")
+            raise SmartHomeError(ERR_NOT_SUPPORTED, command_not_supported)
 
 
 def _verify_pin_challenge(data, state, challenge):
@@ -2289,7 +2290,7 @@ class TransportControlTrait(_Trait):
         elif command == COMMAND_MEDIA_STOP:
             service = media_player.SERVICE_MEDIA_STOP
         else:
-            raise SmartHomeError(ERR_NOT_SUPPORTED, "Command not supported")
+            raise SmartHomeError(ERR_NOT_SUPPORTED, command_not_supported)
 
         await self.hass.services.async_call(
             media_player.DOMAIN,
