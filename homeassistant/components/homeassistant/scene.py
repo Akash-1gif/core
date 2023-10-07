@@ -175,13 +175,12 @@ async def async_setup_platform(
     discovery_info: DiscoveryInfoType | None = None,
 ) -> None:
     """Set up Home Assistant scene entries."""
+    
     _process_scenes_config(hass, async_add_entities, config)
 
-    # This platform can be loaded multiple times. Only first time register the service.
     if hass.services.has_service(SCENE_DOMAIN, SERVICE_RELOAD):
         return
 
-    # Store platform for later.
     platform = hass.data[DATA_PLATFORM] = entity_platform.async_get_current_platform()
 
     async def reload_config(call: ServiceCall) -> None:
@@ -193,7 +192,6 @@ async def async_setup_platform(
             return
 
         integration = await async_get_integration(hass, SCENE_DOMAIN)
-
         conf = await conf_util.async_process_component_config(hass, config, integration)
 
         if not (conf and platform):
@@ -201,7 +199,6 @@ async def async_setup_platform(
 
         await platform.async_reset()
 
-        # Extract only the config for the Home Assistant platform, ignore the rest.
         for p_type, p_config in config_per_platform(conf, SCENE_DOMAIN):
             if p_type != HA_DOMAIN:
                 continue
@@ -214,10 +211,7 @@ async def async_setup_platform(
 
     async def apply_service(call: ServiceCall) -> None:
         """Apply a scene."""
-        reproduce_options = {}
-
-        if ATTR_TRANSITION in call.data:
-            reproduce_options[ATTR_TRANSITION] = call.data.get(ATTR_TRANSITION)
+        reproduce_options = {ATTR_TRANSITION: call.data.get(ATTR_TRANSITION)}
 
         await async_reproduce_state(
             hass,
@@ -246,13 +240,8 @@ async def async_setup_platform(
         entities = call.data[CONF_ENTITIES]
 
         for entity_id in snapshot:
-            if (state := hass.states.get(entity_id)) is None:
-                _LOGGER.warning(
-                    "Entity %s does not exist and therefore cannot be snapshotted",
-                    entity_id,
-                )
-                continue
-            entities[entity_id] = State(entity_id, state.state, state.attributes)
+            if (state := hass.states.get(entity_id)) is not None:
+                entities[entity_id] = State(entity_id, state.state, state.attributes)
 
         if not entities:
             _LOGGER.warning("Empty scenes are not allowed")
@@ -260,16 +249,17 @@ async def async_setup_platform(
 
         scene_config = SceneConfig(None, call.data[CONF_SCENE_ID], None, entities)
         entity_id = f"{SCENE_DOMAIN}.{scene_config.name}"
-        if (old := platform.entities.get(entity_id)) is not None:
-            if not isinstance(old, HomeAssistantScene) or not old.from_service:
-                _LOGGER.warning("The scene %s already exists", entity_id)
-                return
+
+        old = platform.entities.get(entity_id)
+        if old and isinstance(old, HomeAssistantScene) and old.from_service:
             await platform.async_remove_entity(entity_id)
+
         async_add_entities([HomeAssistantScene(hass, scene_config, from_service=True)])
 
     hass.services.async_register(
         SCENE_DOMAIN, SERVICE_CREATE, create_service, CREATE_SCENE_SCHEMA
     )
+
 
 
 def _process_scenes_config(
