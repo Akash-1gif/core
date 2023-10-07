@@ -252,10 +252,7 @@ async def async_setup_entry(
     name = config_entry.data.get(CONF_NAME)
     entities = []
 
-    @callback
-    def _migrate_old_unique_ids(
-        hass: HomeAssistant, old_unique_id: str, new_key: str
-    ) -> None:
+    def migrate_old_unique_ids(old_unique_id: str, new_key: str):
         """Migrate unique IDs to the new format."""
         ent_reg = er.async_get(hass)
 
@@ -267,37 +264,20 @@ async def async_setup_entry(
             )
 
     for sensor_type, sensors in coordinator.data.items():
-        if sensor_type in ["fs", "sensors", "raid"]:
-            for sensor_label, params in sensors.items():
-                for param in params:
-                    if sensor_description := SENSOR_TYPES.get((sensor_type, param)):
-                        _migrate_old_unique_ids(
-                            hass,
-                            f"{coordinator.host}-{name} {sensor_label} {sensor_description.name_suffix}",
-                            f"{sensor_label}-{sensor_description.key}",
-                        )
-                        entities.append(
-                            GlancesSensor(
-                                coordinator,
-                                name,
-                                sensor_label,
-                                sensor_description,
-                            )
-                        )
-        else:
-            for sensor in sensors:
-                if sensor_description := SENSOR_TYPES.get((sensor_type, sensor)):
-                    _migrate_old_unique_ids(
-                        hass,
-                        f"{coordinator.host}-{name}  {sensor_description.name_suffix}",
-                        f"-{sensor_description.key}",
+        for sensor_label, params in sensors.items():
+            for param in params:
+                sensor_key = SENSOR_TYPES.get((sensor_type, param))
+                if sensor_key:
+                    migrate_old_unique_ids(
+                        f"{coordinator.host}-{name} {sensor_label} {sensor_key.name_suffix}",
+                        f"{sensor_label}-{sensor_key.key}",
                     )
                     entities.append(
                         GlancesSensor(
                             coordinator,
                             name,
-                            "",
-                            sensor_description,
+                            sensor_label,
+                            sensor_key,
                         )
                     )
 
