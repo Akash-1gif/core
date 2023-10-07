@@ -287,7 +287,7 @@ class GenericThermostat(ClimateEntity, RestoreEntity):
         # Set default state to off
         if not self._hvac_mode:
             self._hvac_mode = HVACMode.OFF
-    
+
 
 
     @property
@@ -427,38 +427,21 @@ class GenericThermostat(ClimateEntity, RestoreEntity):
     async def _async_control_heating(self, time=None, force=False):
         """Check if we need to turn heating on or off."""
         async with self._temp_lock:
-            if not self._active and None not in (
-                self._cur_temp,
-                self._target_temp,
-            ):
+            if not self._active and self._cur_temp is not None and self._target_temp is not None:
                 self._active = True
-                _LOGGER.info(
-                    (
-                        "Obtained current and target temperature. "
-                        "Generic thermostat active. %s, %s"
-                    ),
-                    self._cur_temp,
-                    self._target_temp,
-                )
+                _LOGGER.info("Generic thermostat active. %s, %s", self._cur_temp, self._target_temp)
 
             if not self._active or self._hvac_mode == HVACMode.OFF:
                 return
 
-            # If the `force` argument is True, we
-            # ignore `min_cycle_duration`.
-            # If the `time` argument is not none, we were invoked for
-            # keep-alive purposes, and `min_cycle_duration` is irrelevant.
             if not force and time is None and self.min_cycle_duration:
-                if self._is_device_active:
-                    current_state = STATE_ON
-                else:
+                if not self._is_device_active:
                     current_state = HVACMode.OFF
+                else:
+                    current_state = STATE_ON
                 try:
                     long_enough = condition.state(
-                        self.hass,
-                        self.heater_entity_id,
-                        current_state,
-                        self.min_cycle_duration,
+                        self.hass, self.heater_entity_id, current_state, self.min_cycle_duration
                     )
                 except ConditionError:
                     long_enough = False
@@ -468,26 +451,26 @@ class GenericThermostat(ClimateEntity, RestoreEntity):
 
             too_cold = self._target_temp >= self._cur_temp + self._cold_tolerance
             too_hot = self._cur_temp >= self._target_temp + self._hot_tolerance
+
             if self._is_device_active:
                 if (self.ac_mode and too_cold) or (not self.ac_mode and too_hot):
-                    _LOGGER.info("Turning off heater %s", self.heater_entity_id)
-                    await self._async_heater_turn_off()
+                    await self._log_and_toggle_heater("off")
                 elif time is not None:
-                    # The time argument is passed only in keep-alive case
-                    _LOGGER.info(
-                        "Keep-alive - Turning on heater heater %s",
-                        self.heater_entity_id,
-                    )
-                    await self._async_heater_turn_on()
+                    await self._log_and_toggle_heater("on")
             elif (self.ac_mode and too_hot) or (not self.ac_mode and too_cold):
-                _LOGGER.info("Turning on heater %s", self.heater_entity_id)
-                await self._async_heater_turn_on()
+                await self._log_and_toggle_heater("on")
             elif time is not None:
-                # The time argument is passed only in keep-alive case
-                _LOGGER.info(
-                    "Keep-alive - Turning off heater %s", self.heater_entity_id
-                )
-                await self._async_heater_turn_off()
+                await self._log_and_toggle_heater("off")
+
+    async def _log_and_toggle_heater(self, action):
+        """Log and toggle heater."""
+        entity_id = self.heater_entity_id
+        if action == "on":
+            _LOGGER.info("Turning on heater %s", entity_id)
+            await self._async_heater_turn_on()
+        elif action == "off":
+            _LOGGER.info("Turning off heater %s", entity_id)
+            await self._async_heater_turn_off()
 
     @property
     def _is_device_active(self):
